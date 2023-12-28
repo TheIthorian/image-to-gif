@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "==2.3.2"
+itsdangerous = "==2.1.2"
+python-dotenv = "==1.0.0"
+imageio = "*"
+pillow = "*"
+
+[dev-packages]
+
+[scripts]
+start = "flask run --host=0.0.0.0 --port=8080"
+
+[requires]
+python_version = "3.12"
