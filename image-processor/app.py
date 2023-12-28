@@ -9,10 +9,12 @@ from flask import (
 import os
 import imageio
 from PIL import Image
-import numpy as np
 import math
 
 app = Flask(__name__)
+
+app.config["MAX_CONTENT_LENGTH"] = 1 * 1024 * 1024 * 1024  # 1 GB
+
 
 UPLOAD_FOLDER = "uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
@@ -74,8 +76,11 @@ def upload_images():
 
 def create_gif(image_paths, fps=2, scale_factor=1):
     print("rescaling images")
+
+    # Take the size of the first image
+    size = get_scaled_image_size(image_paths[0], scale_factor)
     for image_path in image_paths:
-        resize_image(image_path, scale_factor)
+        resize_image(image_path, size)
 
     print("generating gif")
     images = [imageio.imread(path) for path in image_paths]
@@ -86,14 +91,23 @@ def create_gif(image_paths, fps=2, scale_factor=1):
     return gif_path
 
 
-def resize_image(image_path, scale_factor):
+def get_scaled_image_size(image_path: str, scale_factor=1):
     im = Image.open(image_path)
     size = (
         math.floor(im.width * float(scale_factor)),
         math.floor(im.height * float(scale_factor)),
     )
+
+    im.close()
+
+    return size
+
+
+def resize_image(image_path, size):
     print(size)
-    im.thumbnail(size, Image.Resampling.LANCZOS)
+    im = Image.open(image_path)
+    im = im.resize(size)
+    # im.thumbnail(size, Image.Resampling.LANCZOS)
     im.save(image_path)
 
 
