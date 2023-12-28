@@ -1,10 +1,3 @@
-# from flask import Flask, request, Response, send_file
-# import imageio
-# import os
-# import io, base64
-# from PIL import Image
-
-
 from flask import (
     Flask,
     render_template,
@@ -15,7 +8,9 @@ from flask import (
 )
 import os
 import imageio
-
+from PIL import Image
+import numpy as np
+import math
 
 app = Flask(__name__)
 
@@ -52,6 +47,8 @@ def upload_images():
     delete_old_images(app.config["UPLOAD_FOLDER"])
 
     files = request.files.getlist("files")
+    fps = request.form["fps"]
+    scale_factor = int(request.form["scale-factor"] or "100") / 100
 
     uploaded_file_paths = []
 
@@ -65,22 +62,39 @@ def upload_images():
         uploaded_file_paths.append(filename)
 
     # Create a GIF from the uploaded images
-    gif_path = create_gif(uploaded_file_paths)
+    gif_path = create_gif(uploaded_file_paths, fps, scale_factor)
 
     print(gif_path)
 
     return render_template("./result.html", gif_path="output.gif")
 
 
-def create_gif(image_paths):
+# size = 128, 128
+
+
+def create_gif(image_paths, fps=2, scale_factor=1):
+    print("rescaling images")
+    for image_path in image_paths:
+        resize_image(image_path, scale_factor)
+
+    print("generating gif")
     images = [imageio.imread(path) for path in image_paths]
+
     gif_path = os.path.join(app.config["UPLOAD_FOLDER"], "output.gif")
-    imageio.mimsave(gif_path, images, fps=2, format="GIF", loop=0)
+    imageio.mimsave(gif_path, images, fps=int(fps), format="GIF", loop=0)
+
     return gif_path
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+def resize_image(image_path, scale_factor):
+    im = Image.open(image_path)
+    size = (
+        math.floor(im.width * float(scale_factor)),
+        math.floor(im.height * float(scale_factor)),
+    )
+    print(size)
+    im.thumbnail(size, Image.Resampling.LANCZOS)
+    im.save(image_path)
 
 
 def delete_old_images(directory):
@@ -96,3 +110,7 @@ def delete_old_images(directory):
                 print(f"Deleted: {file_path}")
             except Exception as e:
                 print(f"Error deleting {file_path}: {e}")
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

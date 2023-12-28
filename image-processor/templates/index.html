@@ -5,11 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image to GIF Converter</title>
   </head>
+
+  <style>
+    .flex-items {
+      margin: 10px;
+    }
+
+    * {
+      font-family: monospace;
+    }
+  </style>
+
   <body>
     <h1>Upload Images to Create GIF</h1>
-    <form method="post" action="/upload" enctype="multipart/form-data">
-      <input type="file" name="files" accept="image/*" multiple required />
-      <input type="submit" value="Create GIF" />
+    <form
+      method="post"
+      action="/upload"
+      enctype="multipart/form-data"
+      style="display: flex; flex-direction: column; padding: 10px"
+    >
+      <input
+        type="file"
+        name="files"
+        accept="image/*"
+        multiple
+        required
+        style="align-self: start; margin: 10px"
+      />
+
+      <div>
+        <label for="fps" style="align-self: start; margin: 10px">FPS</label>
+        <input
+          name="fps"
+          type="number"
+          value="2"
+          required
+          style="align-self: start; margin: 10px"
+        />
+      </div>
+
+      <div>
+        <label for="scale-factor" style="align-self: start; margin: 10px"
+          >scale factor (%)</label
+        >
+        <input
+          name="scale-factor"
+          type="number"
+          value="100"
+          required
+          style="align-self: start; margin: 10px"
+        />
+      </div>
+
+      <input
+        type="submit"
+        value="Create GIF"
+        style="align-self: start; margin: 10px"
+      />
     </form>
   </body>
 </html>
