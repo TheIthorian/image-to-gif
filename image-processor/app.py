@@ -30,7 +30,7 @@ def hello_world():
 
 @app.route("/")
 def index():
-    return render_template("./index.html")
+    return render_template("./index.html", gif_path="output.gif")
 
 
 @app.route("/uploads/<filename>")

@@ -63,5 +63,18 @@
         style="align-self: start; margin: 10px"
       />
     </form>
+
+    <span>Existing gif:</span>
+    <img
+      src="{{ url_for('uploaded_file', filename=gif_path) }}"
+      alt="Generated GIF"
+    />
+
+    <a
+      href="{{ url_for('uploaded_file', filename=gif_path) }}"
+      download="output.gif"
+    >
+      <button>Download GIF</button>
+    </a>
   </body>
 </html>
