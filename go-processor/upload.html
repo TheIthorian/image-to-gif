@@ -1,0 +1,83 @@
+<!-- upload.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload Files</title>
+  </head>
+  <body>
+    <h1>Upload Files</h1>
+
+    <form
+      method="post"
+      action="/upload"
+      enctype="multipart/form-data"
+      style="display: flex; flex-direction: column; padding: 10px"
+    >
+      <input
+        type="file"
+        name="files"
+        accept="image/*"
+        multiple
+        required
+        style="align-self: start; margin: 10px"
+      />
+
+      <div>
+        <label for="fps" style="align-self: start; margin: 10px"
+          >Delay (100ths of seconds)</label
+        >
+        <input
+          name="fps"
+          type="number"
+          value="50"
+          required
+          style="align-self: start; margin: 10px"
+        />
+      </div>
+
+      <div>
+        <label for="size" style="align-self: start; margin: 10px">Size</label>
+        <input
+          name="size"
+          type="number"
+          value="200"
+          required
+          style="align-self: start; margin: 10px"
+        />
+      </div>
+
+      <div>
+        <label for="scale-factor" style="align-self: start; margin: 10px"
+          >scale factor (%)</label
+        >
+        <input
+          name="scale-factor"
+          type="number"
+          value="100"
+          required
+          style="align-self: start; margin: 10px"
+        />
+      </div>
+
+      <input
+        type="submit"
+        value="Create GIF"
+        style="align-self: start; margin: 10px"
+      />
+
+      <span>Existing gif:</span>
+      <img
+        src="images/output.gif"
+        alt="Generated GIF"
+        style="max-width: 100%"
+      />
+
+      <a href="images/output.gif" download="output.gif">
+        <button>Download GIF</button>
+      </a>
+    </form>
+  </body>
+</html>

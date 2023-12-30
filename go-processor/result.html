@@ -1,0 +1,18 @@
+<!-- result.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Result</title>
+  </head>
+  <body>
+    <h1>Result</h1>
+    {{ if . }}
+    <img src="images/{{ . }}" alt="Generated GIF" style="max-width: 100%" />
+    {{ else }}
+    <p>No GIF generated</p>
+    {{ end }}
+  </body>
+</html>
